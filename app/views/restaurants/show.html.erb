@@ -1,0 +1,38 @@
+<div class="container mt-4">
+  <h1><%= @restaurant.name %></h1>
+
+  <p>
+    <strong>Address:</strong> <%= @restaurant.address %><br>
+    <strong>Phone:</strong> <%= @restaurant.phone_number %><br>
+    <strong>Category:</strong> <%= @restaurant.category.capitalize %>
+  </p>
+
+  <hr>
+
+  <h3>Reviews</h3>
+  <% if @restaurant.reviews.any? %>
+    <ul class="list-group mb-3">
+      <% @restaurant.reviews.each do |review| %>
+        <li class="list-group-item">
+          <strong>Rating:</strong> <%= review.rating %>/5 <br>
+          <%= review.content %>
+        </li>
+      <% end %>
+    </ul>
+  <% else %>
+    <p>No reviews yet. Be the first to review this restaurant!</p>
+  <% end %>
+
+  <hr>
+
+  <h3>Add a Review</h3>
+  <%= simple_form_for([@restaurant, @review]) do |f| %>
+    <%= f.input :content %>
+    <%= f.input :rating, collection: (0..5).to_a, include_blank: "Select rating" %>
+    <%= f.submit "Add Review", class: "btn btn-primary" %>
+  <% end %>
+
+  <hr>
+
+  <%= link_to "Back to all restaurants", restaurants_path, class: "btn btn-secondary mt-3" %>
+</div>
